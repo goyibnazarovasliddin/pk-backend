@@ -6,6 +6,7 @@ import { ClassifiersModule } from './modules/classifiers/classifiers.module';
 import { IngestModule } from './modules/ingest/ingest.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { ExportModule } from './modules/export/export.module';
+import { HealthController } from './health.controller';
 
 @Module({
     imports: [
@@ -18,4 +19,12 @@ import { ExportModule } from './modules/export/export.module';
         ExportModule,
     ],
 })
+
+@Module({
+  imports: [],
+  controllers: [HealthController],
+  providers: [],
+})
+
 export class AppModule { }
+
