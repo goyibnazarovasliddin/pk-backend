@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ini_analytics_db
+    environment:
+      POSTGRES_USER: analytics_user
+      POSTGRES_PASSWORD: analytics_password
+      POSTGRES_DB: ini_analytics
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U analytics_user -d ini_analytics"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ini_analytics_app
+    environment:
+      DATABASE_URL: postgresql://analytics_user:analytics_password@postgres:5432/ini_analytics
+      NODE_ENV: production
+      PORT: 8000
+      CORS_ORIGINS: "http://localhost:5173,http://localhost:3000"
+      ADMIN_KEY: "super-secret-admin-key"
+      SOURCE_URL: "https://api.siat.stat.uz/media/uploads/sdmx/sdmx_data_4585.xlsx"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+    command: npm run start:prod
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
