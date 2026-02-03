@@ -7,6 +7,6 @@ CREATE TABLE "refresh_jobs" (
     "processed_rows" INTEGER NOT NULL DEFAULT 0,
     "eta_seconds" INTEGER,
     "error_message" TEXT,
-    "started_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "completed_at" DATETIME
+    "started_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "completed_at" TIMESTAMP
 );
