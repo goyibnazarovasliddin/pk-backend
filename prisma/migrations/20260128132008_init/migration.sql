@@ -7,8 +7,8 @@ CREATE TABLE "classifiers" (
     "name_uzc" TEXT,
     "parent_code" TEXT,
     "level" INTEGER,
-    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" DATETIME NOT NULL,
+    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP NOT NULL,
     CONSTRAINT "classifiers_parent_code_fkey" FOREIGN KEY ("parent_code") REFERENCES "classifiers" ("code") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
